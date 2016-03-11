@@ -1,4 +1,4 @@
-FCC - Timestamp Microservice
+FCC - Request Header Parser Microservice
 Copyright (c) 2016 Jerry Hampton. All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

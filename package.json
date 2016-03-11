@@ -1,14 +1,14 @@
 {
-  "name": "fcc-timestamp",
+  "name": "fcc-request-header-parser",
   "version": "1.0.0",
-  "description": "Free Code Camp basejump - timestamp microservice",
+  "description": "Free Code Camp basejump - Request Header Parser Microservice",
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hamptonjt/timestamp"
+    "url": "git+https://github.com/hamptonjt/request-header-parser.git"
   },
-  "homepage": "https://github.com/hamptonjt/timestamp",
-  "bugs": "https://github.com/hamptonjt/timestamp/issues",
+  "homepage": "https://github.com/hamptonjt/request-header-parser",
+  "bugs": "https://github.com/hamptonjt/request-header-parser/issues",
   "keywords": [
     "full stack",
     "Express",

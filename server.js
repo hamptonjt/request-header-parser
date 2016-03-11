@@ -1,61 +1,25 @@
 'use strict';
 
-var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-
 var express = require('express');
 var app = express();
 
-app.get('/', function(req,res) {
-	res.writeHead(200, {'content-type': 'text/html'})
-	res.end('<h1>API Basejump: Timestamp Microservice</h1>Add a string to the end of the URL to use the microservice...<br>&nbsp;</br>For example: <br>&nbsp;</br>https://nameless-woodland-23183.herokuapp.com/April%2011,%201977')
+app.get('/api/whoami', function(req, res) {
+	var whoami = { }
 	
-})
+	whoami.ipaddress = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress ||  req.socket.remoteAddress || req.connection.socket.remoteAddress;
 
-app.get('/:date', function(req, res) {
-	var timestamp = {
-		"unix": null,
-		"natural": null
-	}
+	var languages = req.get('Accept-Language')
 	
-	var inputDate = req.params.date
-	var inputDateAsDate = new Date()
-	var d = Date.parse(inputDate)
-	var naturalDate
+	whoami.languages = languages.split(',')[0]
 	
-	inputDateAsDate.setTime(inputDate * 1000) // convert to milliseconds...
+	var os = /\(([^)]+)\)/.exec(req.get('User-Agent'))
 	
-	res.writeHead(200, {'Accept': 'application/json'})
+	whoami.software = os[1]
 	
-	if ( isNaN(d) ) {  
-		// date is not valid as a natural date - check to see if it was a unix date..
-		d = inputDateAsDate
-		var unixDate = Date.parse(d)
-		if ( isNaN(unixDate) ) {
-			// date is invalid
-			timestamp.unix = null
-			timestamp.natural = null
-			console.log('Invalid Date by time...')
-			res.end(JSON.stringify(timestamp))
-		}
-		else {
-			// date is valid...
-			naturalDate = new Date(unixDate)
-			timestamp.unix = inputDate 
-			timestamp.natural = months[naturalDate.getMonth()] + ' ' + naturalDate.getDate() + ', ' + naturalDate.getFullYear()
-			res.end(JSON.stringify(timestamp))
-		}
-	}
-	else {
-		// date is valid
-		naturalDate = new Date(d)
-		timestamp.unix = d / 1000
-		timestamp.natural = months[naturalDate.getMonth()] + ' ' + naturalDate.getDate() + ', ' + naturalDate.getFullYear()
-		res.end(JSON.stringify(timestamp))
-	}
+	console.log(JSON.stringify(whoami))
 	
-	console.log('Input:', inputDate)
-	console.log('Unix:', timestamp.unix)
-	console.log('Natural:', timestamp.natural)
+	res.writeHeader(200, {'Accept': 'application/json'})
+	res.end(JSON.stringify(whoami))
 })
 
 var port = process.env.PORT || 8080;
